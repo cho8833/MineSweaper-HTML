@@ -1,0 +1,1466 @@
+<html>
+
+<head>
+    <style>
+        #hamburger-container {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #hamburger-container-opener {
+            display: block;
+            z-index: 12;
+            margin-bottom: 4px;
+            margin-inline-start: auto;
+            transition: all .2s ease;
+            height: 32px;
+            padding: 0 8px;
+            justify-content: center;
+        }
+
+        #hamburger-container-opener:hover {
+            background: #EAEAEA;
+        }
+
+        #settings-closer {
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            transition: all .2s ease;
+        }
+
+        #settings-closer:hover {
+            background: #EAEAEA;
+        }
+
+        button {
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            display: inline-flex;
+            margin: 0;
+            font-size: 14px;
+            padding: 4px;
+            width: fit-content;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        #settings {
+            z-index: 12;
+            position: relative;
+            display: none;
+            flex-direction: column;
+            height: fit-content;
+            box-shadow: 0px 25.6px 57.6px rgb(0 0 0 / 14%), 0px 0px 16.4px rgb(0 0 0 / 12%);
+            background: #F7F7F7;
+            border-radius: 4px;
+            padding: 16px;
+            width: 280px;
+        }
+
+        h2 {
+            font-size: 14px;
+            margin: 0;
+            user-select: none;
+        }
+
+        #newgamebtn {
+            color: #0072C9;
+            margin: 6px 0 6px 0;
+            padding: 0px;
+        }
+
+        label {
+            font-size: 14px;
+            margin: 4px 0 4px 0;
+            user-select: none;
+        }
+
+        #difficulty-button {
+            display: flex;
+            width: 100%;
+            border: 1px solid #B6B6B6;
+            padding: 5px;
+            background: transparent;
+        }
+
+        .difficulty-selector {
+            flex-grow: 1;
+        }
+
+        #difficulty-box {
+            box-shadow: 0px 12.8px 28.8px rgb(0 0 0 / 14%), 0px 0px 9.2px rgb(0 0 0 / 12%);
+            border-radius: 4px;
+            background: #F7F7F7;
+            margin: 0;
+            padding: 4px;
+            display: none;
+            flex-direction: column;
+            font-size: 14px;
+            z-index: 9;
+            position: relative;
+        }
+
+        .difficulty-option {
+            cursor: pointer;
+            color: #2B2B2B;
+            border-radius: 2px;
+            border: 2px solid transparent;
+            background: transparent;
+            text-align: center;
+            padding: 4px;
+        }
+
+        .difficulty-option:focus {
+            outline: none;
+        }
+
+        .difficulty-option:hover {
+            background: #F1F1F1;
+        }
+
+        .bestscore {
+            margin: 10px 0;
+        }
+
+        .devider-line {
+            height: 0;
+            width: 100px;
+            border: none;
+            border-top: 1px solid #E2E2E2;
+        }
+
+        #reset-score {
+            color: #0072C9;
+            padding: 0px;
+            margin: 6px 0 6px 0;
+        }
+
+        .onoff-switch {
+            position: relative;
+            width: fit-content;
+            height: fit-content;
+            margin: 4px 0 4px 0;
+            margin-inline-start: 5px;
+        }
+
+        .onoff-box {
+            cursor: pointer;
+            outline: none;
+            width: 40px;
+            height: 20px;
+            appearance: none;
+            border: 1px solid #8D8D8D;
+            border-radius: 20px;
+            background: #F7F7F7;
+            border-color: #666666;
+            margin: 0;
+        }
+
+        .onoff-button {
+            position: absolute;
+            transition: all .2s ease;
+            pointer-events: none;
+            top: 5px;
+            left: 5px;
+            right: unset;
+            border-radius: 10px;
+            width: 10px;
+            height: 10px;
+            background: #262626;
+        }
+
+        .onoff-button-on {
+            left: 25px;
+            right: unset;
+            background: #FFFFFF;
+        }
+
+        .onoff-box-on {
+            background: #0078D4;
+            border-color: #0078D4;
+        }
+
+        .popup-background {
+            z-index: 13;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            position: fixed;
+            justify-content: center;
+            background: rgb(0, 0, 0, 0.3);
+        }
+
+        .popup-container {
+            height: fit-content;
+            width: 400px;
+            max-height: 100%;
+            border-radius: 4px;
+            box-shadow: 0 12.8px 28.8px rgb(0 0 0 / 14%), 0px 0px 9.2px rgb(0 0 0 / 12%);
+            background: #FFFFFF;
+            margin-top: auto;
+            margin-bottom: auto;
+            padding: 16px;
+        }
+
+        .popup-title {
+            font-size: 20px;
+            line-height: 28px;
+            color: #2B2B2B;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .popup-closer {
+            transition: all .2s ease;
+            height: fit-content;
+        }
+
+        .popup-closer:hover {
+            background: #EAEAEA;
+        }
+
+        .popup-top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .popup-content {
+            height: fit-content;
+            display: flex;
+            max-height: 560px;
+            flex-direction: column;
+        }
+
+        .input-container {
+            margin-bottom: 8px;
+        }
+
+        .popup-bottom {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #popup-button-confirm {
+            background: #0078D4;
+            padding: 8px 50px 8px 50px;
+            font-weight: 550;
+            color: #FFFFFF;
+            transition: all .2s ease;
+        }
+
+        .popup-button-confirm:hover {
+            background: #006CBE;
+        }
+
+        .input-custom {
+            height: 30px;
+            width: 200px;
+            padding-left: 5px;
+            border: 0;
+            transition: all .2s ease;
+            border-bottom: 1px solid #8D8D8D;
+            border-radius: 4px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .input-custom:hover {
+            box-shadow: 0px 12.8px 28.8px rgb(0 0 0 / 14%), 0px 0px 9.2px rgb(0 0 0 / 12%);
+        }
+
+        .input-custom:focus {
+            outline: none;
+            background: #E8E8E8;
+        }
+
+        .cell {
+            width: 30px;
+            height: 30px;
+            transition-property: background, transform;
+            transition-duration: 0.1s;
+            transition-timing-function: ease;
+            border-radius: 2px;
+            cursor: pointer;
+            text-align: center;
+            padding: 0;
+            border: 0;
+        }
+
+        .cell-revealed1 {
+            color: skyblue;
+        }
+
+        .cell-revealed2 {
+            color: green;
+        }
+
+        .cell-revealed3 {
+            color: red;
+        }
+
+        .cell-revealed4 {
+            color: blue;
+        }
+
+        .cell-revealed5 {
+            color: orange;
+        }
+
+        .cell-revealed6 {
+            color: #8D8D8D;
+        }
+
+        .cell-revealed7 {
+            color: #9100ff;
+        }
+
+        .cell-revealed8 {
+            color: #8bc34a;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            position: relative;
+            border-radius: 2px;
+        }
+
+        .card.fliped {
+            transform: rotateY(180deg);
+        }
+
+        .card_face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            backface-visibility: hidden;
+            border-radius: 2px;
+        }
+
+        .card_face-unrevealed {
+            background: #2B2B2B;
+        }
+
+        .card_face-revealed {
+            background: white;
+            transform: rotateY(180deg);
+            cursor: default;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .board {
+            background: #555555;
+            user-select: none;
+        }
+
+        #game-ui {
+            display: flex;
+            justify-content: center;
+        }
+
+        .game-alert {
+            position: absolute;
+            width: 100%;
+            top: 40%;
+            display: flex;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            justify-content: center;
+        }
+
+        #alert {
+            width: 40%;
+            color: #FFFFFF;
+            opacity: 0.7;
+            text-align: center;
+            background: #000000;
+            border-radius: 10px;
+            padding: 4px 10px 4px 10px;
+            display: none;
+        }
+
+        #state {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #E2E2E2;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            user-select: none;
+        }
+
+        .game-top {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        #howto {
+            color: #0072C9;
+            margin: 6px 0 6px 0;
+            padding: 0px;
+        }
+
+        #credit {
+            color: #0072C9;
+            margin: 6px 0 6px 0;
+            padding: 0px;
+        }
+
+        .popup-button-accept {
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            padding: 6px 0 6px 0;
+            border: 0;
+            color: white;
+            background: #0078D4;
+            font-weight: 600;
+            margin-right: 10px;
+            transition: background .5s ease;
+        }
+
+        .popup-button-accept:hover {
+            background: #666666;
+        }
+
+        .popup-button-reject {
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            padding: 6px 0 6px 0;
+            border: 0;
+            background: #EAEAEA;
+            font-weight: 600;
+            margin-left: 10px;
+            transition: background .5s ease;
+        }
+
+        .popup-button-reject:hover {
+            background: #AEAEAE;
+        }
+
+        .popup-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .chapter {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .popup-button {
+            transition: background .5s ease;
+            padding: 8;
+            margin: 10;
+        }
+
+        .popup-button:hover {
+            background: #EAEAEA;
+        }
+
+        .gameover-background {
+            z-index: 11;
+            user-select: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            position: fixed;
+            justify-content: center;
+            background: rgba(40, 40, 40, 0.5);
+            user-select: none;
+        }
+
+        .gameover-title {
+            font-size: 50;
+            color: white;
+            font-weight: 550;
+            text-align: center;
+        }
+
+        .gameover-message {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: fit-content;
+            height: 100%;
+        }
+
+        .gameover-keyBox {
+            border: 2px solid #FFFFFF;
+            border-radius: 4px;
+            color: white;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .gameover-contentBox {
+            display: flex;
+        }
+
+        .gameover-content {
+            color: white;
+            font-size: 20px;
+            font-weight: 400;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-top">
+        <div id="state">
+            <div>남은 지뢰 개수</div>
+            <div id="remainedMine"></div>
+        </div>
+    </div>
+    <div id="game-ui"></div>
+    <div id="hamburger-container">
+        <button id="hamburger-container-opener">
+            <svg width="16px" height="10px" viewBox="0 0 16 10">
+                <path d="M0 1H16V0H0V1ZM0 9H16V8H0V9ZM0 4.99219H16V4H0V4.99219Z"></path>
+            </svg>
+        </button>
+        <div id="settings" hidden="true" style="display: none">
+            <button id="settings-closer">
+                <svg width="20" height="20">
+
+                </svg>
+            </button>
+            <h2>게임 설정</h2>
+            <button id="newgamebtn">새 게임</button>
+            <label>난이도</label>
+            <div style="height: 32px;">
+                <button id="difficulty-button">
+                    <div id="difficulty-selected" class="difficulty-selector">초급</div>
+                    <svg width="20" height="20" style="min-width: 20px; flex-grow: 0;">
+                        <path
+                            d="">
+                        </path>
+                    </svg>
+                </button>
+                <div id="difficulty-box" style="display: none">
+                    <div class="difficulty-option" id="beginner">
+                        초급
+                    </div>
+                    <div class="difficulty-option" id="middle">
+                        중급
+                    </div>
+                    <div class="difficulty-option" id="advanced">
+                        고급
+                    </div>
+                    <div class="difficulty-option" id="custom">
+                        사용자 지정
+                    </div>
+                </div>
+            </div>
+            <label id="win">승리 : </label>
+            <label id="lose">패배 : </label>
+            <label id="winrate">승률 : </label>
+            <hr class="devider-line">
+
+            <button id="reset-score">모든 통계 다시 설정</button>
+            <button id="howto">게임 방법</button>
+            <button id="credit">게임 제작진</button>
+        </div>
+        <div class="popup-background" id="custom-popup-background" style="display: none;">
+            <div class="popup-container">
+                <div class="popup-top">
+                    <h2 class="popup-title">사용자 지정</h2>
+                    <button id="custom-popup-closer" class="popup-closer">
+                        <svg width="20" height="20">
+
+                        </svg>
+                    </button>
+                </div>
+                <div class="popup-content">
+                    <div class="input-container">
+                        <label>가로</label>
+                        <input id="input-row" class="input-custom" placeholder="9~30">
+                    </div>
+                    <div class="input-container">
+                        <label>세로</label>
+                        <input id="input-col" class="input-custom" placeholder="9~24">
+                    </div>
+                    <div class="input-container">
+                        <label>개수</label>
+                        <input id="input-count" class="input-custom" placeholder="10~668">
+                    </div>
+                </div>
+                <div class="popup-bottom">
+                    <div></div>
+                    <button id="popup-button-confirm">설정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var BEGINNER = 101
+        var MIDDLE = 102
+        var ADVANCED = 103
+        var CUSTOM = 104
+        var mineImage = ""
+        var CHECKFLAG = 201
+        var CHECKMINE = 202
+        var XML = 'http://www.w3.org/2000/svg'
+        var errorMessage = {
+            rangeOverFlow: '범위를 초과했습니다.',
+            invalidInput: '잘못된 값입니다.',
+            mineOverFlow: '간의 개수보다 지뢰의 개수가 많습니다.'
+        }
+        var mineImg = 'chrome://favicon2/?size=24&scale_factor=1x&show_fallback_monogram=&page_url=https%3A%2F%2Faccounts.google.com%2Fsignin%2Fchrome%2Fsync%3Fssp%3D1%26continue%3Dhttps%253A%252F%252Fwww.google.com%252F'
+        class main {
+            constructor() {
+                this.minesweaper = new MineSweaper()
+                var settings_opener = document.getElementById('hamburger-container-opener')
+                var settings = document.getElementById('settings')
+                var difficulty_button = document.getElementById('difficulty-button')
+                var difficulty_box = document.getElementById('difficulty-box')
+                var settings_closer = document.getElementById('settings-closer')
+                var custom_popup = document.getElementById('custom-popup-background')
+                var popup_confirm = document.getElementById('popup-button-confirm')
+                var difficulty_selected = document.getElementById('difficulty-selected')
+                var popup_closer = document.getElementById('custom-popup-closer')
+                var newGameBtn = document.getElementById('newgamebtn')
+                var gameUI = document.getElementById('game-ui')
+                var resetScore = document.getElementById('reset-score')
+                var howto = document.getElementById('howto')
+                var credit = document.getElementById('credit')
+
+                difficulty_box.style.display = 'none'
+                settings.style.display = 'none'
+
+                settings_opener.addEventListener('click', () => {
+                    if (settings.style.display == 'none') {
+                        settings.style.display = 'flex'
+                    }
+                    else {
+                        if (difficulty_box.style.display == 'flex') {
+                            difficulty_box.style.display = 'none'
+                        }
+                        settings.style.display = 'none'
+                    }
+                })
+                settings_closer.onclick = function () {
+                    settings.style.display = 'none'
+                    difficulty_box.style.display = 'none'
+                }
+                newGameBtn.addEventListener('click', () => {
+                    this.minesweaper.newGame()
+                    settings.style.display = 'none'
+                    if (this.minesweaper.popup.gameOverDiv != undefined) {
+                        document.body.removeChild(this.minesweaper.popup.gameOverDiv)
+                        this.minesweaper.popup.gameOverDiv = undefined
+                    }
+                })
+                difficulty_button.addEventListener('click', () => {
+                    if (difficulty_box.style.display == 'none') {
+                        difficulty_box.style.display = 'flex'
+                    } else {
+                        difficulty_box.style.display = 'none'
+                    }
+                })
+                var inputRow = document.getElementById('input-row')
+                var inputCol = document.getElementById('input-col')
+                var inputCount = document.getElementById('input-count')
+                for (let i = 0; i < difficulty_box.children.length; i++) {
+                    difficulty_box.children[i].addEventListener('click', () => {
+
+                        switch (difficulty_box.children[i].id) {
+                            case 'beginner':
+                                difficulty_selected.innerText = '초급'
+                                inputRow.value = 9
+                                inputCol.value = 9
+                                inputCount.value = 10
+                                this.minesweaper.setDifficulty(BEGINNER, 9, 9, 10)
+                                this.minesweaper.newGame()
+                                break
+                            case 'middle':
+                                difficulty_selected.innerText = '중급'
+                                inputRow.value = 16
+                                inputCol.value = 16
+                                inputCount.value = 40
+                                this.minesweaper.setDifficulty(MIDDLE, 16, 16, 40)
+                                this.minesweaper.newGame()
+                                break
+                            case 'advanced':
+                                difficulty_selected.innerText = '고급'
+                                inputRow.value = 30
+                                inputCol.value = 16
+                                inputCount = 99
+                                this.minesweaper.setDifficulty(ADVANCED, 30, 16, 99)
+                                this.minesweaper.newGame()
+                                break
+                            case 'custom':
+                                custom_popup.style.display = 'flex'
+                                break
+                        }
+                        settings.style.display = 'none'
+                        difficulty_box.style.display = 'none'
+                    })
+                }
+                popup_confirm.addEventListener('click', () => {
+                    var row = parseInt(inputRow.value)
+                    var col = parseInt(inputCol.value)
+                    var count = parseInt(inputCount.value)
+                    var message = []
+                    row ? row : message.push(errorMessage['invalidInput'] + ' (가로)')
+                    col ? col : message.push(errorMessage['invalidInput'] + ' (세로)')
+                    count ? count : message.push(errorMessage['invalidInput'] + " (개수)")
+                    if ((row ? true : false) && (col ? true : false) ** (count ? true : false)) {
+                        if (row > 30 || row < 9) {
+                            message.push(errorMessage['rangeOverFlow'] + ' (가로)')
+                        }
+                        if (col > 24 || col < 9) {
+                            message.push(errorMessage['rangeOverFlow'] + " (세로)")
+                        }
+                        if (count > 668 || count < 10) {
+                            message.push(errorMessage['rangeOverFlow'] + " (개수)")
+                        }
+                        if (row * col < count) {
+                            message.push(errorMessage['mineOverFlow'])
+                        }
+                    }
+
+                    if (message.length) {
+                        this.minesweaper.popup.inputError(message)
+                        inputRow.value = this.minesweaper.row
+                        inputCol.value = this.minesweaper.col
+                        inputCount.value = this.minesweaper.count
+                        return
+                    }
+                    difficulty_selected.innerText = '사용자 지정'
+                    custom_popup.style.display = 'none'
+                    inputRow.value = row
+                    inputCol.value = col
+                    inputCount.value = count
+                    this.minesweaper.setDifficulty(CUSTOM, row, col, count)
+                    this.minesweaper.newGame()
+                })
+                popup_closer.addEventListener('click', () => {
+                    custom_popup.style.display = 'none'
+                })
+                gameUI.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                })
+                resetScore.addEventListener('click', () => {
+                    this.minesweaper.popup.resetScore()
+                })
+                howto.addEventListener('click', () => {
+                    this.minesweaper.popup.howto()
+                })
+                credit.addEventListener('click', () => {
+                    this.minesweaper.popup.credit()
+                })
+            }
+        }
+        // td attributes : isFlag, isRevealed, isMine, isFirst
+        class MineSweaper {
+            constructor() {
+                this.board = undefined
+                this.popup = new PopUp(this)
+                this.minePainter = new MinePainter()
+                this.row = 0
+                this.col = 0
+                this.count = 0
+                this.firstClick = true
+                this.winCount = 0
+                this.loseCount = 0
+
+                this.flagCount = 0
+
+                this.leftMouse = false
+                this.rightMouse = false
+                this.mousedownfn = this.onBoardMouseDown.bind(this)
+                this.mouseupfn = this.onBoardMouseUp.bind(this)
+                this.mousemovefn = this.onBoardMouseMove.bind(this)
+
+                this.getDifficulty()
+                this.newGame()
+                this.updateStatus()
+            }
+            newGame() {
+                var gameUI = document.getElementById('game-ui')
+                if (gameUI.children.length) {
+                    gameUI.removeChild(gameUI.children[0])
+                }
+                this.board = document.createElement('table')
+                this.board.classList.add('board')
+                this.board.addEventListener('mousedown', this.mousedownfn)
+                this.board.addEventListener('mouseup', this.mouseupfn)
+                for (let i = 0; i < this.col; i++) {
+                    var tr = document.createElement('tr')
+                    for (let k = 0; k < this.row; k++) {
+                        var td = document.createElement('td')
+                        td.classList.add('cell')
+                        var card = document.createElement('div')
+                        var card_front = document.createElement('div')
+                        var card_back = document.createElement('div')
+
+                        card.classList.add('card')
+                        card_front.classList.add('card_face', 'card_face-unrevealed')
+                        card_back.classList.add('card_face', 'card_face-revealed')
+
+                        td.appendChild(card)
+                        card.appendChild(card_front)
+                        card.appendChild(card_back)
+
+                        card.isMine = false
+                        card.col = i
+                        card.row = k
+                        tr.appendChild(td)
+                    }
+                    this.board.appendChild(tr)
+                }
+                gameUI.appendChild(this.board)
+                this.firstClick = true
+                this.flagCount = 0
+                this.updateRemainedMine()
+            }
+
+            // left: 1 rgiht: 3
+            onBoardMouseDown(e) {
+                if (e.path[1].nodeName != "DIV" || e.path[0].nodeName == "TABLE") {
+                    return
+                }
+                switch (e.which) {
+                    case 1:
+                        this.leftMouse = true
+                        break
+                    case 3:
+                        this.rightMouse = true
+                        break
+                }
+                this.board.addEventListener('mousemove', this.mousemovefn)
+                e.path[0].nodeName == 'CANVAS' ? this.clickedCard = e.path[2] : this.clickedCard = e.path[1]
+                if (this.leftMouse && this.rightMouse) {
+                    this.setAroundPreview(this.clickedCard)
+                }
+                else if (this.leftMouse) {
+                    this.setCellPreview(this.clickedCard)
+                }
+            }
+            onBoardMouseUp(e) {
+                if (this.leftMouse && this.rightMouse) {
+                    if (this.clickedCard.isRevealed) {
+                        if (parseInt(this.clickedCard.children[1].innerText) == this.checkAround(this.clickedCard.CHECKFLAG)) {
+                            this.revealAround(this.clickedCard)
+                        }
+                        else {
+                            this.removeAroundPreview(this.clickedCard)
+                        }
+                    }
+                    else {
+                        this.removeAroundPreview(this.clickedCard)
+                    }
+                }
+                else if (this.leftMouse) {
+                    if (this.firstClick) {
+                        this.setMines(this.clickedCard)
+                        this.firstClick = false
+                    }
+                    if (!this.clickedCard.isFlag) {
+                        this.checkCell(this.clickedCard)
+                    }
+                }
+                else if (this.rightMouse) {
+                    if (!(this.clickedCard.isRevealed || this.firstClick)) {
+                        if (e.path[0].nodeName == 'CANVAS') {
+                            // flag = true
+                            this.removeFlag(this.clickedCard)
+                        }
+                        else {
+                            this.setFlag(this.clickedCard)
+                        }
+                    }
+                }
+                this.board.removeEventListener('mousemove', this.mousemovefn)
+                this.rightMouse = false
+                this.leftMouse = false
+            }
+            onBoardMouseMove(e) {
+                if (e.path[1].nodeName != "DIV" || e.path[0].nodeName == "TABLE") {
+                    return
+                }
+                var temp = undefined
+                e.path[0].nodeName == 'CANVAS' ? temp = e.path[2] : temp = e.path[1]
+                if (temp == this.clickedCard) {
+                    return
+                }
+                if (this.leftMouse && this.rightMouse) {
+                    this.removeAroundPreview(this.clickedCard)
+                    this.setAroundPreview(temp)
+                }
+                else if (this.leftMouse) {
+                    if (this.clickedCard.isRevealed) {
+                        return
+                    }
+                    this.removeCellPreview(this.clickedCard)
+                    this.setCellPreview(temp)
+                }
+                this.clickedCard = temp
+            }
+            setFlag(td) {
+                this.minePainter.drawFlag(td.children[0])
+                td.isFlag = true
+                this.flagCount += 1
+                this.updateRemainedMine()
+                this.checkWin()
+            }
+            removeFlag(td) {
+                var face = td.children[0]
+                face.removeChild(face.children[0])
+                td.isFlag = false
+                this.flagCount -= 1
+                this.updateRemainedMine()
+            }
+            setMines(td) {
+                var mines = []
+                var emptyCount = this.row * this.col - this.count
+                for (let i = 0; i < this.col; i++) {
+                    for (let k = 0; k < this.row; k++) {
+                        mines.push([i, k])
+                    }
+                }
+                for (let i = td.col - 1; i < td.col + 2; i++) {
+                    for (let k = td.row - 1; k < td.row + 2; k++) {
+                        if (i < this.col && k < this.row) {
+                            var index = mines.findIndex((e) => i == e[0] && k == e[1])
+                            mines.splice(index, 1)
+                            emptyCount += 1
+                        }
+                    }
+                }
+                for (let i = 0; i < emptyCount; i++) {
+                    var randomIndex = parseInt(Math.random() * (mines.length - 1))
+                    mines.splice(randomIndex, 1)
+                }
+                mines.forEach((e) => {
+                    this.board.children[e[0]].children[e[1]].children[0].isMine = true
+                })
+            }
+            checkWin() {
+                if (this.count != this.flagCount) {
+                    return
+                }
+                var count = 0
+                for (let i = 0; i < this.col; i++) {
+                    for (let k = 0; k < this.row; k++) {
+                        var card = this.board.children[i].children[k].children[0]
+                        if (card.isMine && card.isFlag) {
+                            count += 1
+                            if (this.count == count) {
+                                for (let i = 0; i < this.col; i++) {
+                                    for (let k = 0; k < this.row; k++) {
+                                        var card = this.board.children[i].children[k].children[0]
+                                        if (!card.isRevealed && !card.isFlag) {
+                                            this.revealCell(card)
+                                        }
+                                    }
+                                }
+                                this.popup.gameOver('게임 승리!')
+                                this.setStatus(this.winCount + 1, this.loseCount)
+                                this.updateStatus()
+                            }
+                        }
+                    }
+                }
+            }
+            checkLose(td) {
+                if (!td.isMine) {
+                    return false
+                }
+                this.popup.gameOver('게임 패배')
+                for (let i = 0; i < this.col; i++) {
+                    for (let k = 0; k < this.row; k++) {
+                        var td = this.board.children[i].children[k].children[0]
+                        if (td.isMine && !td.isFlag) {
+                            td.classList.add('fliped')
+                            this.minePainter.drawMine(td.children[1])
+                        }
+                    }
+                }
+                this.board.removeEventListener('mousedown', this.mousedownfn)
+                this.board.removeEventListener('mouseup', this.mouseupfn)
+                this.board.removeEventListener('mousemove', this.mousemovefn)
+                this.setStatus(this.winCount, this.loseCount + 1)
+                this.updateStatus()
+                return true
+            }
+            checkCell(td) {
+                if (!this.checkLose(td)) {
+                    this.revealCell(td)
+                }
+            }
+            checkAround(td, check) {
+                var row = td.row
+                var col = td.col
+                var count = 0
+                for (let i = col - 1; i < col + 2; i++) {
+                    for (let k = row - 1; k < row + 2; k++) {
+                        try {
+                            var aroundCell = this.board.children[i].children[k].children[0]
+                            if (check == CHECKFLAG) {
+                                aroundCell.isFlag ? count += 1 : count += 0
+                            }
+                            else if (check == CHECKMINE) {
+                                aroundCell.isMine ? count += 1 : count += 0
+                            }
+                        } catch { }
+                    }
+                }
+                return count
+            }
+            revealAround(td) {
+                var row = td.row
+                var col = td.col
+                for (let i = col - 1; i < col + 2; i++) {
+                    for (let k = row - 1; k < row + 2; k++) {
+                        try {
+                            var aroundCell = this.board.children[i].children[k].children[0]
+                            if (!aroundCell.isFlag && !aroundCell.isRevealed) {
+                                this.checkCell(aroundCell)
+                            }
+                        } catch { }
+                    }
+                }
+            }
+            revealCell(td) {
+                var count = this.checkAround(td,CHECKMINE)
+                td.classList.add('fliped')
+                td.isRevealed = true
+                if (count) {
+                    td.children[1].classList.add('cell-revealed' + count)
+                    td.children[1].innerText = count
+                }
+                else {
+                    this.revealAround(td)
+                }
+            }
+            setCellPreview(td) {
+                if (!(td.isRevealed || td.isFlag)) {
+                    td.classList.add('fliped')
+                }
+            }
+            setAroundPreview(card) {
+                var row = card.row
+                var col = card.col
+                for (let i = col - 1; i < col + 2; i++) {
+                    for (let k = row - 1; k < row + 2; k++) {
+                        try {
+                            var _td = this.board.children[i].children[k].children[0]
+                            if (!(_td.isRevealed || _td.isFlag)) {
+                                _td.classList.add('fliped')
+                            }
+                        } catch { }
+                    }
+                }
+            }
+            removeCellPreview(td) {
+                var row = td.row
+                var col = td.col
+                td.classList.remove('fliped')
+            }
+            removeAroundPreview(td) {
+                var row = td.row
+                var col = td.col
+                for (let i = col - 1; i < col + 2; i++) {
+                    for (let k = row - 1; k < row + 2; k++) {
+                        try {
+                            var _td = this.board.children[i].children[k].children[0]
+                            if (!_td.isRevealed) {
+                                _td.classList.remove('fliped')
+                            }
+                        } catch { }
+                    }
+                }
+            }
+            updateRemainedMine() {
+                var remained = document.getElementById('remainedMine')
+                remained.innerText = this.count - this.flagCount
+            }
+
+            setStatus(win, lose) {
+                localStorage.setItem('win', win)
+                localStorage.setItem('lose', lose)
+            }
+            updateStatus() {
+                var getWin = parseInt(localStorage.getItem('win'))
+                this.winCount = getWin ? getWin : 0
+                var getLose = parseInt(localStorage.getItem('lose'))
+                this.loseCount = getLose ? getLose : 0
+                var winrate = 0
+                if (this.winCount && !this.loseCount) {
+                    winrate = 100
+                }
+                else {
+                    var temp = parseInt((this.winCount / (this.winCount + this.loseCount)) * 100)
+                    winrate = temp ? temp : 0
+                }
+                var winLabel = document.getElementById('win')
+                var loseLabel = document.getElementById('lose')
+                var rateLabel = document.getElementById('winrate')
+                winLabel.innerText = '승리 : ' + this.winCount
+                loseLabel.innerText = '패배 : ' + this.loseCount
+                rateLabel.innerText = '승률 : ' + winrate + ' %'
+            }
+            resetStatus() {
+                localStorage.setItem('win', 0)
+                localStorage.setItem('lose', 0)
+                this.updateStatus()
+            }
+            getDifficulty() {
+                var difficulty = parseInt(localStorage.getItem('difficulty'))
+                var row = 0
+                var col = 0
+                var count = 0
+                var difficulty_string = ""
+                switch (difficulty) {
+                    case MIDDLE:
+                        row = 16
+                        col = 16
+                        count = 40
+                        difficulty_string = '중급'
+                        break
+                    case ADVANCED:
+                        row = 30
+                        col = 16
+                        count = 99
+                        difficulty_string = '고급'
+                        break
+                    case CUSTOM:
+                        row = parseInt(localStorage.getItem('row'))
+                        col = parseInt(localStorage.getItem('col'))
+                        count = parseInt(localStorage.getItem('count'))
+                        difficulty_string = '사용자 지정'
+                        break
+                    case BEGINNER:
+                    default:
+                        difficulty = BEGINNER
+                        row = 9
+                        col = 9
+                        count = 10
+                        difficulty_string = '초급'
+                        break
+                }
+                this.row = row
+                this.col = col
+                this.count = count
+                this.difficulty = difficulty
+                this.difficulty_string = difficulty_string
+                document.getElementById('input-row').value = row
+                document.getElementById('input-col').value = col
+                document.getElementById('input-count').value = count
+                document.getElementById('difficulty-selected').innerText = difficulty_string
+            }
+            setDifficulty(difficulty, row, col, count) {
+                this.difficulty = difficulty
+                this.row = row
+                this.col = col
+                this.count = count
+                localStorage.setItem('difficulty', difficulty)
+                localStorage.setItem('row', row)
+                localStorage.setItem('col', col)
+                localStorage.setItem('count', count)
+            }
+        }
+        class PopUp {
+            constructor(minesweaper) {
+                this.minesweaper = minesweaper
+                this.keyDownFn = this.onSpaceKeyDown.bind(this)
+                this.gameOverDiv = undefined
+            }
+            getPopupBase(title) {
+                var background = document.createElement('div')
+                background.classList.add('popup-background')
+                document.body.appendChild(background)
+                var popup_container = document.createElement('div')
+                popup_container.classList.add('popup-container')
+                background.appendChild(popup_container)
+                var popup_title = document.createElement('h2')
+                var popup_top = document.createElement('div')
+                popup_title.innerText = title
+                popup_title.classList.add('popup-title')
+                popup_top.classList.add('popup-top')
+                popup_top.appendChild(popup_title)
+                popup_container.appendChild(popup_top)
+                return background
+            }
+            resetScore() {
+                var background = this.getPopupBase('모든 통계 다시 설정')
+                var popup_container = background.children[0]
+                var popup_content = document.createElement('div')
+                popup_content.classList.add('popup-content')
+                popup_container.appendChild(popup_content)
+                var contents = document.createElement('label')
+                contents.innerText('모든 통계를 다시 설정하시겠습니까?')
+                popup_content.appendChild(contents)
+
+                var button_container = document.createElement('div')
+                button_container.classList.add('popup-button-container')
+                popup_container.appendChild(button_container)
+                var accept = document.createElement('button')
+                accept.innerText = '모든 통계 다시 설정'
+                var reject = document.createElement('button')
+                reject.innerText = '취소'
+                reject.classList.add('popup-button-reject')
+                button_container.append(accept, reject)
+                accept.addEventListener('click', () => {
+                    document.body.removeChild(background)
+                    this.minesweaper.resetStatus()
+                })
+                reject.addEventListener('click', () => {
+                    document.body.removeChild(background)
+                })
+            }
+            howto() {
+                var background = this.getPopupBase('게임 방법')
+                var popup_container = background.children[0]
+                var popup_content = undefined
+                //howto1
+                var howto1 = function () {
+                    popup_content = document.createElement('div')
+                    popup_content.classList.add('popup-content')
+                    popup_container.insertBefore(popup_content, popup_container.children[2])
+                    var chapter1 = document.createElement('label')
+                    chapter1.classList.add('chapter')
+                    chapter1.innerText = '지뢰를 표시하십시오'
+                    var content1 = document.createElement('label')
+                    content1.innerText = '지뢰가 숨겨져 있다고 생각되는 사각형을 마우스 오른쪽 단추로 클릭합니다. 그러면 사각형에 깃발이 표시됩니다.'
+                    var chapter2 = document.createElement('label')
+                    chapter2.classList.add('chapter')
+                    chapter2.innerText = '패턴을 연구하십시오'
+                    content2 = document.createElement('label')
+                    content2.innerText = '일렬로 있는 사각형에 차례로 2-3-2라는 숫자가 표시되면 그 열 옆에 지뢰가 3개 연이어 숨겨져 있음을 알 수 있습니다. 숫자 8이 표시된 사각형의 경우 주위의 모든 사각형에 지뢰가 숨겨져 있습니다.'
+                    popup_content.append(chapter1, content1, chapter2, content2)
+                }
+                //howto2
+                var howto2 = function () {
+                    popup_content = document.createElement('div')
+                    popup_content.classList.add('popup-content')
+                    popup_container.insertBefore(popup_content, popup_container.children[2])
+                    var chapter1 = document.createElement('label')
+                    chapter1.classList.add('chapter')
+                    chapter1.innerText = '좌클릭'
+                    var content1 = document.createElement('label')
+                    content1.innerText = '클릭한 칸을 밝힙니다.'
+                    var chapter2 = document.createElement('label')
+                    chapter2.classList.add('chapter')
+                    chapter2.innerText = '우클릭'
+                    content2 = document.createElement('label')
+                    content2.innerText = '밝혀지지 않은 칸에 깃발을 표시합니다.'
+                    var chapter3 = document.createElement('label')
+                    chapter3.classList.add('chapter')
+                    chapter3.innerText = '좌클릭 + 우클릭'
+                    content3 = document.createElement('label')
+                    content3.innerText = '밝혀지지 않은 칸을 클릭하면 주변 칸들을 밝힙니다.'
+                    popup_content.append(chapter1, content1, chapter2, content2, chapter3, content3)
+                }
+                //buttons change howto
+                var change_button_container = document.createElement('div')
+                change_button_container.style.display = 'flex'
+                change_button_container.style.justifyContent = 'center'
+                var button1 = document.createElement('button')
+                button1.classList.add('popup-button')
+                var svg1 = document.createElementNS(XML, 'svg')
+                var path1 = document.createElementNS(XML, 'path')
+                path1.setAttributeNS(null, 'd', '')         // svg path required
+                svg1.setAttributeNS(null, 'viewBox', '0 0 2048 2048')
+                svg1.style.width = 20
+                svg1.style.height = 20
+                var button2 = document.createElement('button')
+                button2.classList.add('popup-button')
+                var svg2 = document.createElementNS(XML, 'svg')
+                var path2 = document.createElementNS(XML, 'path')
+                path2.setAttributeNS(null, 'd', '')         // svg path required
+                svg2.setAttributeNS(null, 'viewBox', '0 0 2048 2048')
+                svg2.style.width = 20
+                svg2.style.height = 20
+
+                svg1.appendChild(path1)
+                button1.appendChild(svg1)
+                change_button_container.appendChild(button1)
+                svg2.appendChild(path2)
+                button2.appendChild(svg2)
+                change_button_container.appendChild(button2)
+                popup_container.appendChild(change_button_container)
+                button1.addEventListener('click', () => {
+                    popup_container.removeChild(popup_content)
+                    howto1()
+                })
+                button2.addEventListener('click', () => {
+                    popup_container.removeChild(popup_content)
+                    howto2()
+                })
+                howto1()
+
+                //button top
+                var button_container = document.createElement('div')
+                button_container.classList.add('popup-button-container')
+                button_container.style.justifyContent = 'flex-end'
+                var accept = document.createElement('button')
+                accept.classList.add('popup-button-accept')
+                accept.innerText = '닫기'
+                accept.addEventListener('click', () => {
+                    document.body.removeChild(background)
+                })
+                button_container.appendChild(accept)
+                popup_container.appendChild(button_container)
+            }
+            gameOver(gameover_title) {
+                this.gameOverDiv = document.createElement('div')
+                this.gameOverDiv.classList.add('gameover-background')
+                document.body.appendChild(this.gameOverDiv)
+                this.gameOverDiv.addEventListener('contextmenu', (e) => {
+                    e.preventDefault()
+                })
+                var message = document.createElement('div')
+                message.classList.add('gameover-message')
+
+                var title = document.createElement('h1')
+                title.classList.add('gameover-title')
+                title.innerText = gameover_title
+                var contentBox = document.createElement('div')
+                contentBox.style.display = 'flex'
+                var keyBox = document.createElement('div')
+                keyBox.classList.add('gameover-keyBox')
+                keyBox.innerText = '스페이스바'
+                var content = document.createElement('h2')
+                content.classList.add('gameover-content')
+                content.innerText = '새 게임을 시작하려면'
+                contentBox.append(keyBox, content)
+                message.append(title, contentBox)
+                this.gameOverDiv.append(message)
+                document.addEventListener('keydown', this.keyDownFn)
+            }
+            onSpaceKeyDown(e) {
+                if (e.which == 32) {
+                    document.removeEventListener('keydown', this.keyDownFn)
+                    this.minesweaper.newGame()
+                    document.body.removeChild(this.gameOverDiv)
+                    this.gameOverDiv = undefined
+                }
+            }
+            credit() {
+                var background = this.getPopupBase('게임 제작진')
+                var popup_container = background.children[0]
+                var popup_content = document.createElement('div')
+                popup_content.classList.add('popup-content')
+                popup_container.appendChild(popup_content)
+                var chapter1 = document.createElement('label')
+                chapter1.classList.add('chapter')
+                chapter1.innerText = '개발자'
+                var content1 = document.createElement('div')
+                content1.innerText = '668th 조현빈'
+                var chapter2 = document.createElement('label')
+                chapter2.classList.add('chapter')
+                chapter2.innerText = '훈수'
+                var content2 = document.createElement('div')
+                content2.innerText = '668th 한승우'
+
+                var button_container = document.createElement('div')
+                button_container.classList.add('popup-button-container')
+                button_container.style.justifyContent = 'flex-end'
+                var accept = document.createElement('button')
+                accept.classList.add('popup-button-accept')
+                accept.innerText = '닫기'
+                accept.addEventListener('click', () => {
+                    document.body.removeChild(background)
+                })
+                button_container.appendChild(accept)
+                popup_container.appendChild(button_container)
+            }
+            inputError(message) {
+                var background = this.getPopupBase('입력 오류')
+                var popup_container = background.children[0]
+                var popup_content = document.createElement('div')
+                popup_content.classList.add('popup-content')
+                popup_container.style.width = '300px'
+                popup_container.appendChild(popup_content)
+                message.forEach((e) => {
+                    var content = document.createElement('label')
+                    content.innerText = e
+                    popup_content.appendChild(content)
+                })
+
+                var button_container = document.createElement('div')
+                button_container.classList.add('popup-button-container')
+                button_container.style.justifyContent = 'flex-end'
+                var accept = document.createElement('button')
+                accept.classList.add('popup-button-accept')
+                accept.innerText = '닫기'
+                accept.addEventListener('click', () => {
+                    document.body.removeChild(background)
+                })
+                button_container.appendChild(accept)
+                popup_container.appendChild(button_container)
+            }
+        }
+        class MinePainter {
+            constructor() {
+                this.flagCanvas = document.createElement('canvas')
+                this.mineImage = new Image()
+                this.prepareFlag()
+                this.prepareMine()
+            }
+            prepareFlag() {
+                var ctx = this.flagCanvas.getContext('2d')
+                ctx.beginPath()
+                ctx.moveTo(200, 10)
+                ctx.lineTo(50, 50)
+                ctx.lineTo(200, 90)
+                ctx.closePath()
+                ctx.fillStyle = 'red'
+                ctx.fill()
+                ctx.fillStyle = 'white'
+                ctx.fillRect(200, 10, 20, 110)
+                ctx.beginPath()
+                ctx.moveTo(170, 120)
+                ctx.lineTo(250, 120)
+                ctx.closePath()
+                ctx.lineWidth = '15'
+                ctx.strokeStyle = 'white'
+                ctx.stroke()
+            }
+            drawFlag(td) {
+                var canvas = document.createElement('canvas')
+                canvas.getContext('2d').drawImage(this.flagCanvas, 0, 0)
+                canvas.style.width = '100%'
+                canvas.style.height = '100%'
+                td.appendChild(canvas)
+            }
+            prepareMine() {
+                this.mineImage.src = mineImg
+            }
+            drawMine(td) {
+                var canvas = document.createElement('canvas')
+                canvas.getContext('2d').drawImage(this.mineImage, 0, 0, canvas.width, canvas.height)
+                canvas.style.width = '100%'
+                canvas.style.height = '100%'
+                td.appendChild(canvas)
+            }
+        }
+        var game = new main()
+        var minePainter = new MinePainter()
+    </script>
+</body>
+
+</html>
