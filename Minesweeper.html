@@ -705,7 +705,7 @@
                                 difficulty_selected.innerText = '고급'
                                 inputRow.value = 30
                                 inputCol.value = 16
-                                inputCount = 99
+                                inputCount.value = 99
                                 this.minesweaper.setDifficulty(ADVANCED, 30, 16, 99)
                                 this.minesweaper.newGame()
                                 break
@@ -744,14 +744,14 @@
                         this.minesweaper.popup.inputError(message)
                         inputRow.value = this.minesweaper.row
                         inputCol.value = this.minesweaper.col
-                        inputCount.value = this.minesweaper.count
+                        inputCount = this.minesweaper.count
                         return
                     }
                     difficulty_selected.innerText = '사용자 지정'
                     custom_popup.style.display = 'none'
                     inputRow.value = row
                     inputCol.value = col
-                    inputCount.value = count
+                    inputCount = count
                     this.minesweaper.setDifficulty(CUSTOM, row, col, count)
                     this.minesweaper.newGame()
                 })
@@ -861,7 +861,7 @@
             onBoardMouseUp(e) {
                 if (this.leftMouse && this.rightMouse) {
                     if (this.clickedCard.isRevealed) {
-                        if (parseInt(this.clickedCard.children[1].innerText) == this.checkAround(this.clickedCard.CHECKFLAG)) {
+                        if (parseInt(this.clickedCard.children[1].innerText) == this.checkAround(this.clickedCard, CHECKFLAG)) {
                             this.revealAround(this.clickedCard)
                         }
                         else {
@@ -945,7 +945,7 @@
                         if (i < this.col && k < this.row) {
                             var index = mines.findIndex((e) => i == e[0] && k == e[1])
                             mines.splice(index, 1)
-                            emptyCount += 1
+                            emptyCount -= 1
                         }
                     }
                 }
@@ -1248,7 +1248,7 @@
                     var chapter2 = document.createElement('label')
                     chapter2.classList.add('chapter')
                     chapter2.innerText = '패턴을 연구하십시오'
-                    content2 = document.createElement('label')
+                    var content2 = document.createElement('label')
                     content2.innerText = '일렬로 있는 사각형에 차례로 2-3-2라는 숫자가 표시되면 그 열 옆에 지뢰가 3개 연이어 숨겨져 있음을 알 수 있습니다. 숫자 8이 표시된 사각형의 경우 주위의 모든 사각형에 지뢰가 숨겨져 있습니다.'
                     popup_content.append(chapter1, content1, chapter2, content2)
                 }
